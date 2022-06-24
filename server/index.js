@@ -19,6 +19,13 @@ app.get('/', (req, res) => {
     res.send('APP IS RUNNING');
 });
 
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    });
+}
+
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
 
